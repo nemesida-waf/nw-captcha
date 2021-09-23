@@ -46,11 +46,10 @@ if (isset($_SESSION['uuid'])) {
                     unblockIP($_SERVER['REMOTE_ADDR'], $client_param['url'], $client_param['sha_lic_key'], Settings::$PROXY);
                 }
             }
-            sleep(5);
-            header("Location: https://" . $_SESSION['vhost'] . $_SESSION['url'] . "/?" . $_SESSION['args']);
+            sleep(3);
+            header("Location: https://" . $_SESSION['vhost'] . $_SESSION['url']);
             $_SESSION['url'] = '';
             $_SESSION['vhost'] = '';
-            $_SESSION['args'] = '';
             $_SESSION['uuid'] = '';
             $_SESSION['ip'] = '';
             exit(0);
@@ -61,12 +60,6 @@ if (isset($_REQUEST['url'])) {
     $url = base64_decode($_REQUEST['url'], true);
     if ($url == false) {
         $url = '/';
-    }
-}
-if (isset($_REQUEST['args'])) {
-    $args = base64_decode($_REQUEST['args'], true);
-    if ($args == false) {
-        $args = '';
     }
 }
 if (isset($_REQUEST['vhost'])) {
@@ -91,7 +84,6 @@ if (isset($_REQUEST['ip'])) {
 if ($url != '' && $vhost != '' && $uuid != '') {
     $_SESSION['url'] = $url;
     $_SESSION['vhost'] = $vhost;
-    $_SESSION['args'] = $args;
     $_SESSION['uuid'] = $uuid;
     $_SESSION['ip'] = $ip;
 }
