@@ -1,5 +1,5 @@
 # nw-captcha
-Пример PHP-кода для интеграции Nemesida WAF с функционалом reCAPTCHA (снятие блокировки с IP-адресов, определенных Nemesida WAF как источники DDoS, Brute froce и флуд атак.
+Пример PHP-кода для интеграции Nemesida WAF с функционалом reCAPTCHA (снятие блокировки с IP-адресов, определенных Nemesida WAF как источники DDoS, атак методом перебора и флуда.
 
 ![Nemesida WAF with reCAPTCHA](https://camo.githubusercontent.com/e6c3083f740afe82447d5ab0a561f27a4e888a727619ef770ca2d5406290bd60/68747470733a2f2f7761662e70656e7465737469742e72752f77702d636f6e74656e742f75706c6f6164732f323032312f30322f3031342e706e67)
 
@@ -33,8 +33,8 @@ sqlite nw.db
 <ul>
   <li><code>url</code> - URL location с включенной опцией <code>nwaf_captcha_unban on;</code>;</li>
   <li><code>sha_lic_key</code> - SHA1 от лицензионного ключа Nemesida WAF;</li>
-  <li><code>uuid</code> - уникальный идентификатор экземпляра Nemesida WAF</li>
-  <li><code>waf_id</code> - идентификатор группы лицензионных ключей</li>
+  <li><code>uuid</code> - уникальный идентификатор экземпляра Nemesida WAF;</li>
+  <li><code>waf_id</code> - идентификатор группы лицензионных ключей.</li>
 </ul>
 
 UUID и WAF ID доступны в журнале <code>error.log</code> сервиса Nginx.
@@ -52,4 +52,4 @@ cat /var/log/nwaf/mla.log | grep -E 'UUID|WAF ID'</code>
 Обновите параметр <code>DB_PATH</code> в Settings.php.
 
 ## Активация
-На сервере с установленным Nemesida WAF в настройках <code>nwaf.conf</code> параметром <code>nwaf_ban_captcha_url</code> определите путь до сервера с текущим PHP-кодом. В настройках NGINX создайте <code>location</code> с параметром <code>nwaf_captcha_unban on</code> таким образом, чтобы <code>location</code> был доступен по адресу, указанному в параметр <code>url</code> файла SQLite. В целях безопасности рекомендуем ограничить доступ к location только с сервера, на котором запущен текущий PHP-код.
+На сервере с установленным Nemesida WAF в настройках <code>nwaf.conf</code> параметром <code>nwaf_ban_captcha_url</code> определите путь до сервера с текущим PHP-кодом. В настройках NGINX создайте <code>location</code> с параметром <code>nwaf_captcha_unban on;</code> таким образом, чтобы <code>location</code> был доступен по адресу, указанному в параметр <code>url</code> файла SQLite. В целях безопасности рекомендуем ограничить доступ к location только с сервера, на котором запущен текущий PHP-код.
