@@ -20,7 +20,7 @@ sqlite nw.db
   create table client
   (
       url         text,
-      sha_lic_key text,
+      token       text,
       uuid        text,
       waf_id      text
   );
@@ -32,7 +32,7 @@ sqlite nw.db
 Описание параметров:
 <ul>
   <li><code>url</code> - URL location с включенной опцией <code>nwaf_captcha_unban on;</code>;</li>
-  <li><code>sha_lic_key</code> - SHA1 от лицензионного ключа Nemesida WAF;</li>
+  <li><code>token</code> - значение параметра nwaf_ban_captcha_token;</li>
   <li><code>uuid</code> - уникальный идентификатор экземпляра Nemesida WAF;</li>
   <li><code>waf_id</code> - идентификатор группы лицензионных ключей.</li>
 </ul>
@@ -52,4 +52,4 @@ cat /var/log/nwaf/mla.log | grep -E 'UUID|WAF ID'</code>
 Обновите параметр <code>DB_PATH</code> в Settings.php.
 
 ## Активация
-На сервере с установленным Nemesida WAF в настройках <code>nwaf.conf</code> параметром <code>nwaf_ban_captcha_url</code> определите путь до сервера с текущим PHP-кодом. В настройках NGINX создайте <code>location</code> с параметром <code>nwaf_captcha_unban on;</code> таким образом, чтобы <code>location</code> был доступен по адресу, указанному в параметр <code>url</code> файла SQLite. В целях безопасности рекомендуем ограничить доступ к location только с сервера, на котором запущен текущий PHP-код.
+На сервере с установленным Nemesida WAF в настройках <code>nwaf.conf</code> установите параметры <code>nwaf_ban_captcha_url</code>, который определяет путь до сервера с текущим PHP-кодом и <code>nwaf_ban_captcha_token</code>, который определяет строку-секрет для разблокировки IP-адреса. В настройках NGINX создайте <code>location</code> с параметром <code>nwaf_captcha_unban on;</code> таким образом, чтобы <code>location</code> был доступен по адресу, указанному в параметр <code>url</code> файла SQLite. В целях безопасности рекомендуем ограничить доступ к location только с сервера, на котором запущен текущий PHP-код.

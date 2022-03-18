@@ -1,8 +1,8 @@
 <?php
 
-function unblockIP($unblock_ip, $mgmt_url, $lic_key, $proxy)
+function unblockIP($unblock_ip, $mgmt_url, $token, $proxy)
 {
-    $json_build = ["lic_key_sha1" => $lic_key, "delete_banned_ip" => $unblock_ip];
+    $json_build = ["token" => $token, "delete_banned_ip" => $unblock_ip];
     $unblock_data = json_encode($json_build);
 
     $curl = curl_init();

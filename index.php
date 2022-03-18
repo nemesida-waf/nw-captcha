@@ -39,11 +39,11 @@ if (isset($_SESSION['uuid'])) {
         if ($data['success'] == true) {
             if ($_SESSION['ip'] != '') {
                 foreach ($clients_param as $client_param) {
-                    unblockIP($_SESSION['ip'], $client_param['url'], $client_param['sha_lic_key'], Settings::$PROXY);
+                    unblockIP($_SESSION['ip'], $client_param['url'], $client_param['token'], Settings::$PROXY);
                 }
             } else {
                 foreach ($clients_param as $client_param) {
-                    unblockIP($_SERVER['REMOTE_ADDR'], $client_param['url'], $client_param['sha_lic_key'], Settings::$PROXY);
+                    unblockIP($_SERVER['REMOTE_ADDR'], $client_param['url'], $client_param['token'], Settings::$PROXY);
                 }
             }
             sleep(3);
