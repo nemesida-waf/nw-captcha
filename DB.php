@@ -1,6 +1,6 @@
 <?php
 
-require_once "Settings.php";
+require_once "settings.php";
 
 class DB
 {

@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once "Settings.php";
-require_once "DB.php";
-require_once "nwaf_dyn_captcha.php";
+require_once "settings.php";
+require_once "db.php";
+require_once "captcha.php";
 
 $url = '';
 $args = '';
