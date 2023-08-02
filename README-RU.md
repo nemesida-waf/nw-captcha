@@ -11,7 +11,7 @@
 
 <pre>
 cd /opt/nw-captcha/
-sqlite nw.db
+sqlite3 nw.db
 </pre>
 
 Создайте необходимую таблицу:
