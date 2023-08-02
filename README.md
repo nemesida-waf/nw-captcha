@@ -11,7 +11,7 @@ Create an SQLite file, initiate its structure. Navigate to the directory where t
 
 <pre>
 cd /opt/nw-captcha/
-sqlite nw.db
+sqlite3 nw.db
 </pre>
 
 Create the required table:
