@@ -1,5 +1,5 @@
 # nw-captcha
-An example of PHP code for integrating Nemesida WAF with reCAPTCHA functionality (unblocking from IP addresses identified by Nemesida WAF as sources of DDoS, brute-force and flood attacks. <strong>nw-captcha</strong> along with configured Nginx is also available as a [Docker-image](https://hub.docker.com/repository/docker/nemesida/nw-captcha).
+An example of PHP code for integrating Nemesida WAF with reCAPTCHA functionality (unblocking from IP addresses identified by Nemesida WAF as sources of DDoS, brute-force and flood attacks). <strong>nw-captcha</strong> along with configured Nginx is also available as a [Docker-image](https://hub.docker.com/repository/docker/nemesida/nw-captcha).
 
 ![Nemesida WAF with reCAPTCHA](https://user-images.githubusercontent.com/48731852/147060694-71a72241-e22a-488a-899e-d4befbe9f297.png)
 
@@ -10,8 +10,8 @@ In the control panel [Google reCAPTCHA](https://www.google.com/recaptcha/admin/)
 Create an SQLite file, initiate its structure. Navigate to the directory where the file will be stored (for example, /opt/nw-captcha/) and create it:
 
 <pre>
-cd /opt/nw-captcha/
-sqlite3 nw.db
+mkdir -p /opt/nw-captcha/
+sqlite3 /opt/nw-captcha/nw.db
 </pre>
 
 Create the required table:
@@ -33,16 +33,16 @@ Create the required table:
 
 Description of parameters:
 <ul>
-  <li><code>url</code> - the URL of the location with the option <code>nwaf_captcha_unban on;</code>;</li>
- <li><code>token</code> - the value of the nwaf_ban_captcha_token parameter;</li>
- <li><code>uuid</code> is a unique instance ID Nemesida WAF;</li>
- <li><code>waf_id</code> - the ID of the group license keys.</li>
+  <li><code>url</code> - URL of the server with the Nemesida WAF dynamic module installed (e.g. SCHEMA://HOST[:PORT]);</li>
+  <li><code>token</code> - the value of the nwaf_ban_captcha_token parameter;</li>
+  <li><code>uuid</code> is a unique instance ID Nemesida WAF;</li>
+  <li><code>waf_id</code> - the ID of the group license keys.</li>
 </ul>
 
 Add records to the database for each server with Nemesida WAF.
 
 Example:
-<pre>INSERT INTO client(url, token, uuid, waf_id) VALUES ("https://example.ru/captcha_unban","token","uuid","waf_id");</pre>
+<pre>INSERT INTO client(url, token, uuid, waf_id) VALUES ("https://example.ru","token","uuid","waf_id");</pre>
 
 The UUID and WAF ID are available in the Nginx service's <code>error.log</code> log.
 
@@ -56,7 +56,7 @@ Example:
 Update the <code>DB_PATH</code> parameter to Settings.php .
 
 ## Activation
-On a server with Nemesida WAF installed, in the settings <code>nwaf.conf</code>, set the parameters <code>nwaf_ban_captcha_url</code>, which defines the path to the server with the current PHP code and <code>nwaf_ban_captcha_token</code>, which defines the secret string for unlocking the IP address. In NGINX settings, create a <code>location</code> with the <code>nwaf_captcha_unban on;</code> parameter so that <code>location</code> is available at the address specified in the <code>url</code> parameter of the SQLite file. For security reasons, we recommend restricting access to location only from the server running the current PHP code.
+On a server with Nemesida WAF installed, in the settings <code>nwaf.conf</code>, set the parameter <code>nwaf_ban_captcha_token</code>, which defines the secret string for unlocking the IP address.
 
 <hr>
 
