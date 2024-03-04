@@ -14,6 +14,8 @@ function unblockIP($unblock_ip, $mgmt_url, $token, $proxy)
         curl_setopt($curl, CURLOPT_PROXY, $proxy);
     }
     curl_setopt($curl, CURLOPT_POSTFIELDS, $unblock_data);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-nwaf-captcha-request: unban')); 
+    curl_setopt($curl, CURLOPT_HEADER, false);
 
     $curlData = curl_exec($curl);
     curl_close($curl);

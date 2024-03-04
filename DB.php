@@ -25,11 +25,12 @@ class DB
         } else return self::$instance;
     }
 
-    public function get_para_by_db($uuid)
+    public function get_param($uuid)
     {
         $query = $this->LINK->prepare("SELECT url, token FROM client WHERE waf_id=(SELECT waf_id FROM client WHERE uuid=:uuid)");
         $query->bindParam(':uuid', $uuid, PDO::PARAM_STR);
         $query->execute();
-        return $query->fetchall(PDO::FETCH_ASSOC);
+        $result = $query->fetchall(PDO::FETCH_ASSOC);
+        return $result;
     }
 }

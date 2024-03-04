@@ -5,7 +5,6 @@ require_once "db.php";
 require_once "captcha.php";
 
 $url = '';
-$args = '';
 $vhost = '';
 $uuid = '';
 $ip = '';
@@ -15,8 +14,8 @@ $db = DB::getInstance();
 if (isset($_SESSION['uuid'])) {
     if (isset($_POST['g-recaptcha-response'])) {
 
-        $clients_param = $db->get_para_by_db($_SESSION['uuid']);
-        $url_captcha_ch = "https://www.google.com/recaptcha/api/siteverify";
+        $clients_param = $db->get_param($_SESSION['uuid']);
+        $url_captcha_ch = 'https://www.google.com/recaptcha/api/siteverify';
         $key = Settings::$SECRET_KEY;
         $query = array(
             "secret" => $key,
