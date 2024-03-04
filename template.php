@@ -64,20 +64,16 @@ if (!isset($_SESSION['uuid'])) {
             <p>
             <hr>
             <p style="text-align: center;">
-
                 Suspicious activity. To unblock your IP address please pass the CAPTCHA.
-
                 <br><br>
-
                 Подозрительная активность. Для разблокировки IP адреса пройдите проверку, используя функционал CAPTCHA.
-
             </p>
             <hr>
             <div style="width: 300px; margin: 0 auto;">
 
                 <?php
                 echo('<form action="?" method="POST" id="captcha">');
-                echo('<div class="g-recaptcha" data-callback="captcha_subm" data-sitekey="' . Settings::$SITE_KEY . '"></div>');
+                echo('<div class="g-recaptcha" data-callback="captcha_subm" data-sitekey="' . settings::$SITE_KEY . '"></div>');
                 echo('<br/>');
                 echo('</form>');
                 echo('</div>');
@@ -87,10 +83,6 @@ if (!isset($_SESSION['uuid'])) {
         </div>
 
     </div>
-</div>
-<div style="position: fixed; bottom: 0; left: 50%; margin-right: -50%; transform: translate(-50%, -50%);">
-    <a href="https://www.pentestit.ru/wp-content/uploads/policy.pdf" style="text-decoration: none; color: #5a8ec7;">Политика
-        конфиденциальности</a>
 </div>
 </body>
 </html>
