@@ -4,7 +4,7 @@ An example of PHP code for integrating Nemesida WAF with reCAPTCHA functionality
 ![Nemesida WAF with reCAPTCHA](https://user-images.githubusercontent.com/48731852/147060694-71a72241-e22a-488a-899e-d4befbe9f297.png)
 
 ## Get reCAPTCHA keys
-In the control panel [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) get the <code>site</code> and <code>secret</code> keys for reCAPTCHA v2 and make changes to the file <code>Settings.php</code>.
+In the control panel [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) get the <code>site</code> and <code>secret</code> keys for reCAPTCHA v2 and make changes in the file <code>settings.php</code>.
 
 ## Initiate the SQLite file:
 Create an SQLite file, initiate its structure. Navigate to the directory where the file will be stored (for example, /opt/nw-captcha/) and create it:
@@ -53,7 +53,7 @@ Example:
 2022/01/01 00:00:00 [info] ...: Nemesida WAF: UUID: XXX; WAF ID: XXX. ...
 </pre>
 
-Update the <code>DB_PATH</code> parameter to Settings.php .
+Update the <code>DB_PATH</code> parameter in <code>settings.php</code>.
 
 ## Activation
 On a server with Nemesida WAF installed, in the settings <code>nwaf.conf</code>, set the parameter <code>nwaf_ban_captcha_token</code>, which defines the secret string for unlocking the IP address.

@@ -4,7 +4,7 @@
 ![Nemesida WAF with reCAPTCHA](https://camo.githubusercontent.com/e6c3083f740afe82447d5ab0a561f27a4e888a727619ef770ca2d5406290bd60/68747470733a2f2f7761662e70656e7465737469742e72752f77702d636f6e74656e742f75706c6f6164732f323032312f30322f3031342e706e67)
 
 ## Получите ключи reCAPTCHA
-В панели управления [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) получите <code>site</code> и <code>secret</code> ключи для reCAPTCHA v2 и внестите изменения в файл <code>Settings.php</code>.
+В панели управления [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) получите <code>site</code> и <code>secret</code> ключи для reCAPTCHA v2 и внестите изменения в файл <code>settings.php</code>.
 
 ## Инициируйте файл SQLite:
 Создайте файл SQLite, инициируйте его структуру. Перейдите в каталог, где будет храниться файл (например, /opt/nw-captcha/), и создайте его:
@@ -53,7 +53,7 @@ UUID и WAF ID доступны в журнале <code>error.log</code> сер�
 2022/01/01 00:00:00 [info] ...: Nemesida WAF: UUID: XXX; WAF ID: XXX. ...
 </pre>
 
-Обновите параметр <code>DB_PATH</code> в Settings.php.
+Обновите параметр <code>DB_PATH</code> в <code>settings.php</code>.
 
 ## Активация
 На сервере с установленным Nemesida WAF в настройках <code>nwaf.conf</code> установите параметр <code>nwaf_ban_captcha_token</code>, который определяет строку-секрет для разблокировки IP-адреса.
