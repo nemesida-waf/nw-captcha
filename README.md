@@ -42,7 +42,7 @@ Description of parameters:
 Add records to the database for each server with Nemesida WAF.
 
 Example:
-<pre>INSERT INTO client(url, token, uuid, waf_id) VALUES ("https://example.ru","token","uuid","waf_id");</pre>
+<pre>INSERT INTO client(url, token, uuid, waf_id) VALUES ("https://example.com","token","uuid","waf_id");</pre>
 
 The UUID and WAF ID are available in the Nginx service's <code>error.log</code> log.
 
