@@ -1,8 +1,15 @@
 <?php
+
 if (!isset($_SESSION['uuid'])) {
     header('HTTP/1.0 403 Forbidden');
     exit;
 }
+
+if (!preg_match('/^[a-z0-9]+$/i', $_SESSION['uuid'])) {
+   header('HTTP/1.0 403 Forbidden');
+   exit;
+}
+
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
