@@ -1,7 +1,7 @@
 # nw-captcha
 Пример PHP-кода для интеграции Nemesida WAF с функционалом reCAPTCHA (снятие блокировки с IP-адресов, определенных Nemesida WAF как источники DDoS, атак методом перебора и флуда). <strong>nw-captcha</strong> вместе с настроенным Nginx доступен также в виде [Docker-образа](https://hub.docker.com/repository/docker/nemesida/nw-captcha).
 
-![Nemesida WAF with reCAPTCHA](https://camo.githubusercontent.com/e6c3083f740afe82447d5ab0a561f27a4e888a727619ef770ca2d5406290bd60/68747470733a2f2f7761662e70656e7465737469742e72752f77702d636f6e74656e742f75706c6f6164732f323032312f30322f3031342e706e67)
+![Nemesida WAF with reCAPTCHA](https://user-images.githubusercontent.com/48731852/147060694-71a72241-e22a-488a-899e-d4befbe9f297.png)
 
 ## Получите ключи reCAPTCHA
 В панели управления [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) получите <code>site</code> и <code>secret</code> ключи для reCAPTCHA v2 и внестите изменения в файл <code>settings.php</code>.
