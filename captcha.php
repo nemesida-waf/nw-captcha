@@ -1,20 +1,20 @@
 <?php
 
-function unblockIP($unblock_ip, $mgmt_url, $token, $proxy)
+function unblockIP($unblock_ip, $url, $token, $proxy)
 {
-    $json_build = ["token" => $token, "delete_banned_ip" => $unblock_ip];
-    $unblock_data = json_encode($json_build);
 
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $mgmt_url);
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
-    curl_setopt($curl, CURLOPT_USERAGENT, "Captcha unblock");
+
     if ($proxy != '') {
         curl_setopt($curl, CURLOPT_PROXY, $proxy);
     }
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $unblock_data);
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-nwaf-captcha-request: unban')); 
+
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+    curl_setopt($curl, CURLOPT_USERAGENT, "CAPTCHAv4");
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        "x-nwaf-captcha-v4: {\"token\": $token, \"delete_banned_ip\": $unblock_ip}"
+    ));
     curl_setopt($curl, CURLOPT_HEADER, false);
 
     $curlData = curl_exec($curl);
