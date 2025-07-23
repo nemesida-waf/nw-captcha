@@ -1,0 +1,13 @@
+[Unit]
+Description=Nemesida WAF CAPTCHA
+After=multi-user.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/nw-captcha
+ExecStart=/var/www/nw-captcha/venv/bin/gunicorn -c init.py api:app -k uvicorn.workers.UvicornWorker
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

@@ -1,62 +1,93 @@
-# nw-captcha
-An example of PHP code for integrating Nemesida WAF with reCAPTCHA functionality (unblocking from IP addresses identified by Nemesida WAF as sources of DDoS, brute-force and flood attacks). <strong>nw-captcha</strong> along with configured Nginx is also available as a [Docker-image](https://hub.docker.com/repository/docker/nemesida/nw-captcha).
+# Nemesida WAF CAPTCHA
+An example of Python/FastAPI code for integrating Nemesida WAF with CAPTCHA functionality. <strong>Nemesida WAF CAPTCHA</strong> is also available as a [Docker-image](https://hub.docker.com/repository/docker/nemesida/nw-captcha).
 
-![Nemesida WAF with reCAPTCHA](https://user-images.githubusercontent.com/48731852/147060694-71a72241-e22a-488a-899e-d4befbe9f297.png)
+![Nemesida WAF CAPTCHA](https://user-images.githubusercontent.com/48731852/147060694-71a72241-e22a-488a-899e-d4befbe9f297.png)
 
-## Get reCAPTCHA keys
-In the control panel [Google reCAPTCHA](https://www.google.com/recaptcha/admin/) get the <code>site</code> and <code>secret</code> keys for reCAPTCHA v2 and make changes in the file <code>settings.php</code>.
-
-## Initiate the SQLite file:
-Create an SQLite file, initiate its structure. Navigate to the directory where the file will be stored (for example, /opt/nw-captcha/) and create it:
+## Quick start
 
 <pre>
-mkdir -p /opt/nw-captcha/
-sqlite3 /opt/nw-captcha/nw.db
+# apt update && apt install -y nginx python3 python3-venv python3-pip memcached
+# python3 -m venv /var/www/nw-captcha/venv
+# /var/www/nw-captcha/venv/bin/python3 -m pip install --upgrade pip
+# /var/www/nw-captcha/venv/bin/python3 -m pip install -r /var/www/nw-captcha/requirements.txt
+# cd /var/www/
+# git clone https://github.com/nemesida-waf/nw-captcha
+# cp /var/www/nw-captcha/db.json.example /var/www/nw-captcha/db.json
+# mkdir -p /var/log/nwaf/captcha
+# chmod -R 0750 /var/log/nwaf/captcha
+# chown -R www-data:www-data /var/log/nwaf/captcha
+# cp /var/www/nw-captcha/misc/captcha /etc/logrotate.d/
+# cp /var/www/nw-captcha/misc/captcha.service /lib/systemd/system/
 </pre>
 
-Create the required table:
+Update /var/www/nw-captcha/db.json with data:
 
-<pre>
-  create table client
-  (
-      url         text,
-      token       text,
-      uuid        text,
-      waf_id      text
-  );
-
-  create unique index client_uuid_uindex
-      on client (uuid);
-</pre>
-
-![Init SQLite file](https://user-images.githubusercontent.com/99513957/158990127-538199ca-1483-4039-a6d5-f10a64697012.png)
-
-Description of parameters:
 <ul>
-  <li><code>url</code> - URL of the server with the Nemesida WAF dynamic module installed (e.g. SCHEMA://HOST[:PORT]);</li>
-  <li><code>token</code> - the value of the nwaf_ban_captcha_token parameter;</li>
-  <li><code>uuid</code> is a unique instance ID Nemesida WAF;</li>
-  <li><code>waf_id</code> - the ID of the group license keys.</li>
+  <li><code>token</code> - the secret token;</li>
+  <li><code>uuid</code> - a unique Nemesida WAF instance ID;</li>
+  <li><code>url</code> - URL of the server with the Nemesida WAF dynamic module installed (<code>SCHEMA://HOST[:PORT][/PATH]</code>).</li>
 </ul>
 
-Add records to the database for each server with Nemesida WAF.
+An example:
 
-Example:
-<pre>INSERT INTO client(url, token, uuid, waf_id) VALUES ("https://example.com","token","uuid","waf_id");</pre>
+<pre>
+[
+    {
+        "token": "Abcdefg1",
+        "uuid": "283fdec1fc7e9caa7595cdd4956a5c38",
+        "url": "http://example.com"
+    },
+    {
+        "token": "Acdefg2",
+        "uuid": "393fdec1fc7e9caa7595cdd4956a5c39",
+        "url": "http://example.com"
+    }
+]
+</pre>
 
-The UUID and WAF ID are available in the Nginx service's <code>error.log</code> log.
+The UUID and WAF ID are available in the Nginx service's <code>error.log</code> log, e.g.:
 
-Example:
 <pre>
 # cat /var/log/nginx/error.log | grep 'WAF ID'
 
 2022/01/01 00:00:00 [info] ...: Nemesida WAF: UUID: XXX; WAF ID: XXX. ...
 </pre>
 
-Update the <code>DB_PATH</code> parameter in <code>settings.php</code>.
+Optional. Update the <code>proxy</code> parameter in <code>settings.php</code> (e.g. <code>proxy = 'http://proxy.example.com:3128'</code>).
 
-## Activation
-On a server with Nemesida WAF installed, in the settings <code>nwaf.conf</code>, set the parameter <code>nwaf_ban_captcha_token</code>, which defines the secret string for unlocking the IP address.
+## Start the CAPTCHA
+
+Start the CAPTCHA:
+
+<pre>
+# systemctl enable captcha
+# systemctl start captcha
+</pre>
+
+Check CAPTCHA status and logs:
+
+<pre>
+# systemctl status captcha
+# cat /var/log/nwaf/captcha/api.log
+# netstat -nlp | grep 8080
+</pre>
+
+CAPTCHA will listen on <code>8080</code> port.
+
+## Enable CAPTCHA
+Enable CAPTCHA in Nemesida WAF with Cabinet or API.
+
+## Keep your enviroment up-to-date
+
+It is important to keep your environment updated:
+<pre>
+# apt update && apt upgrade -y
+# /var/www/nw-captcha/venv/bin/python3 -m pip install --upgrade pip
+# /var/www/nw-captcha/venv/bin/python3 -m pip install --upgrade wheel
+# /var/www/nw-captcha/venv/bin/python3 -m pip freeze | sed -r 's|==.+||' > /tmp/requirements.txt
+# /var/www/nw-captcha/venv/bin/python3 -m pip install --upgrade -r /tmp/requirements.txt
+# systemctl restart captcha
+</pre>
 
 <hr>
 
@@ -75,6 +106,7 @@ To deploy a container with <code>nw-captcha</code>, follow these steps:<br>
 <pre># touch /opt/nwaf/nw-captcha/first-launch</pre>
 
 4. Launch the container with <code>nw-captcha</code> using the commands:
+
 <pre>
 # iptables -t filter -N DOCKER
 # docker run --rm -d -v /opt/nwaf/nw-captcha:/nw-captcha -p 80:80 nemesida/nw-captcha
@@ -97,7 +129,11 @@ You can stop the container with the command:
 5. Allow read access for everyone for the <code>nw-captcha</code> directory:
 <pre># chmod -R 0555 /opt/nwaf/nw-captcha</pre>
 
-6. Install <code>SQLite3</code> and make configuration changes.
+6. Setting up the files:
+<ul>
+    <li>/opt/nwaf/nw-captcha/db.json</li>
+    <li>/opt/nwaf/nw-captcha/settings.py (optional)</li>
+</ul>
 
 7. To launch the container, run the following commands:
 <pre>
