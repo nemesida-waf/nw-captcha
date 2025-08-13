@@ -36,13 +36,13 @@ async def main(request: Request):
 
         # request preprocessing
         r = request_preprocessing(request)
-            
+
         # response
         if r:
             return templates.TemplateResponse('index.html', {'request': request, 'sid': r[0], 'args': r[1]})
         else:
             return Response(status_code=400)
-    
+
     except Exception as e:
         log.error('An error occurred in /: {}'.format(e))
 
@@ -74,7 +74,7 @@ async def main(request: Request, sid: str = Form(...), answer: str = Form(...)):
                 return templates.TemplateResponse('index.html', {'request': request, 'sid': r[0], 'args': r[1], 'status': 0})
             else:
                 return Response(status_code=400)
-            
+
         # success validation
         if str(answer) == str(json.loads(memout).get('answer')):
             tdata = json.loads(memout).get('data', {})
@@ -83,7 +83,7 @@ async def main(request: Request, sid: str = Form(...), answer: str = Form(...)):
 
         # fail validation
         else:
-            
+
             # request preprocessing
             r = request_preprocessing(request)
 

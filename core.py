@@ -49,13 +49,13 @@ def apply_wave_distortion(image, amplitude, wavelength):
     height, width = img_array.shape[:2]
     new_img = Image.new('RGB', (width, height), color='white')
     new_array = np.array(new_img)
-    
+
     for y in range(height):
         for x in range(width):
             new_x = x + int(amplitude * sin(2 * 3.14 * y / wavelength))
             if 0 <= new_x < width:
                 new_array[y, new_x] = img_array[y, x]
-    
+
     return Image.fromarray(new_array)
 
 
@@ -73,17 +73,17 @@ def captcha_img_gen(sid):
         font = ImageFont.load_default(20)
         text = json.loads(memout).get('question')
         draw.text((40, 40), text, fill='black', font=font)
-        
+
         # wave distortion
         image = apply_wave_distortion(image, 40, 80)
-        
+
         # noise
         draw = ImageDraw.Draw(image)
         for _ in range(100):
             x = random.randint(0, 199)
             y = random.randint(0, 79)
             draw.point((x, y), fill=(random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)))
-        
+
         # convert the image
         img_byte_arr = io.BytesIO()
         image.save(img_byte_arr, format='PNG')
@@ -91,7 +91,7 @@ def captcha_img_gen(sid):
 
         # return the image
         return img_byte_arr
-    
+
     except Exception as e:
         log.error('An error occurred during CAPTCHA generation for SID {}: {}'.format(sid, e))
         return None
@@ -129,7 +129,7 @@ def db_load():
 
 def request_preprocessing(request):
     try:
-        
+
         # init
         sid = str(id(request))
         query = dict(request.query_params)
@@ -184,7 +184,7 @@ def request_preprocessing(request):
 
         # return the data
         return sid, args
-        
+
     except Exception as e:
         log.error('An error occurred while unblocking IP: {}'.format(e))
 
