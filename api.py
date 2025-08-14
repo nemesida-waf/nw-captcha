@@ -37,9 +37,19 @@ async def main(request: Request):
         # request preprocessing
         r = request_preprocessing(request)
 
+        # CORS issue fix
+        hdrs = {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'x-nwaf-antibot-id, x-nwaf-antibot-validation'
+        }
+
         # response
         if r:
-            return templates.TemplateResponse('index.html', {'request': request, 'sid': r[0], 'args': r[1]})
+            return templates.TemplateResponse(
+                'index.html',
+                {'request': request, 'sid': r[0], 'args': r[1]},
+                headers=hdrs
+            )
         else:
             return Response(status_code=400)
 
