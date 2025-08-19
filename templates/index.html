@@ -71,15 +71,17 @@
                     <p style="margin-top: -15px;">
 
                         <p><img src="/captcha?sid={{ sid }}" alt="CAPTCHA Image"></p>
-
-                        <form method="post" action="/verify?{{ args }}">
-                            <input type="number" name="answer" placeholder="Введите ответ" required>
-                            <input type="hidden" name="sid" value="{{ sid }}">
-                            <input type="hidden" name="turl" value="{{ url }}">
-                            <input type="hidden" name="tuuid" value="{{ uuid }}">
-                            <input type="hidden" name="tip" value="{{ ip }}">
-                            <button type="submit">ОК</button>
-                        </form>
+                        
+                        <p>
+                            <form method="post" action="/verify?{{ args }}">
+                                <input type="number" name="answer" placeholder="Введите ответ" required>
+                                <input type="hidden" name="sid" value="{{ sid }}">
+                                <input type="hidden" name="turl" value="{{ url }}">
+                                <input type="hidden" name="tuuid" value="{{ uuid }}">
+                                <input type="hidden" name="tip" value="{{ ip }}">
+                                <button type="submit">ОК</button>
+                            </form>
+                        </p>
 
                         {% if status == 1 %}
                             <p class="status">Проверка не пройдена, попробуйте снова</p>         
