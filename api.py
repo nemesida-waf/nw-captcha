@@ -13,12 +13,11 @@ from fastapi.responses import Response, HTMLResponse, StreamingResponse, Redirec
 from fastapi.templating import Jinja2Templates
 
 from core import captcha_img_gen
+from core import db_load
 from core import mclient
 from core import memc_prefix
 from core import request_preprocessing
 from core import unblock_ip
-
-from init import db
 
 from logger import log
 
@@ -26,6 +25,11 @@ from logger import log
 
 app = FastAPI(redirect_slashes=False, ocs_url=None, redoc_url=None, openapi_url=None)
 templates = Jinja2Templates(directory='templates')
+
+##
+
+# Load DB file
+db = db_load()
 
 ##
 

@@ -7,7 +7,6 @@ Author: Romanov R.
 """
 
 from multiprocessing import cpu_count
-from core import db_load
 from logger import log
 
 # Socket path
@@ -22,6 +21,3 @@ logconfig = '/var/www/nw-captcha/logging.conf'
 
 # Logging
 log.info('START')
-
-# Load DB file
-db = db_load()
